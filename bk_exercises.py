@@ -13,7 +13,7 @@ import numpy as np
 import json
 from pygeocoder import Geocoder
 import pandas as pd
-from datetime import datetime
+import datetime
 import tzlocal  # $ pip install tzlocal
 import xml.etree.ElementTree as ET 
 def main(req,req1):
@@ -109,8 +109,14 @@ def main(req,req1):
         transaction_row.append(transaction+1)
         
         ts = json_response[transaction].get("timestamp")
+        ts = str(ts)
+        ts = ts[:10]
+        ts = int(ts)
         
-        transaction_row.append(json_response[transaction].get("timestamp"))
+        readable = datetime.datetime.fromtimestamp(ts).isoformat()
+        
+        transaction_row.append(readable)
+        
         transaction_row.append(json_response[transaction].get("customerId"))
         id_ = json_response[transaction].get("customerId")
         #print(type(id_))
